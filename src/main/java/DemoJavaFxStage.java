@@ -1,46 +1,85 @@
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
 
-import javax.swing.JButton;
+import java.awt.Toolkit;
+import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedList;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class DemoJavaFxStage extends JFrame {
+@SuppressWarnings("serial")
 
-	private JButton buttonBrowse;
+public class DemoJavaFxStage extends JFrame {
 
 	public DemoJavaFxStage() {
 
-		super("Demo File Type Filter");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DemoJavaFxStage.class.getResource("/images/folder.png")));
 
-		setLayout(new FlowLayout());
+		this.setVisible(false);
 
-		buttonBrowse = new JButton("Browse...");
+	}
 
-		buttonBrowse.addActionListener(new ActionListener() {
+	public LinkedList<File> showOpenFileDialog(boolean carpeta, String filtro) {
 
-			public void actionPerformed(ActionEvent arg0) {
+		LinkedList<File> files = new LinkedList<File>();
 
-				showOpenFileDialog();
+		JFileChooser fileChooser = new JFileChooser();
+
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+		fileChooser.setMultiSelectionEnabled(true);
+
+		if (carpeta) {
+
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+		}
+
+		else {
+
+			switch (filtro) {
+
+			case "":
+			case "none":
+
+			case "all":
+
+				break;
+
+			case "images":
+
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif"));
+
+				break;
+
+			default:
+
+				fileChooser.addChoosableFileFilter(
+						new FileNameExtensionFilter(filtro + " Files (*." + filtro + ")", filtro));
+
+				break;
 
 			}
-		});
 
-		getContentPane().add(buttonBrowse);
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-		setSize(300, 100);
+		}
 
-		setLocationRelativeTo(null);
+		fileChooser.setAcceptAllFileFilterUsed(true);
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		int result = fileChooser.showOpenDialog(this);
 
-		setVisible(true);
+		if (result == JFileChooser.APPROVE_OPTION) {
 
+			File[] selectedFile = fileChooser.getSelectedFiles();
+
+			files = addImages(carpeta, filtro, selectedFile);
+
+		}
+		return files;
 	}
 
 	public static void main(String[] args) {
@@ -67,33 +106,131 @@ public class DemoJavaFxStage extends JFrame {
 
 	}
 
-	private void showOpenFileDialog() {
+	public static String extraerExtension(String nombreArchivo) {
 
-		JFileChooser fileChooser = new JFileChooser();
+		String extension = "";
 
-		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		if (nombreArchivo.length() >= 3) {
 
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			extension = nombreArchivo.substring(nombreArchivo.length() - 3, nombreArchivo.length());
 
-		fileChooser.setMultiSelectionEnabled(true);
+			extension = extension.toLowerCase();
 
-		fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Images", "jpg", "png", "gif"));
+			if (extension.equals("peg")) {
+				extension = "jpeg";
+			}
 
-		fileChooser.setAcceptAllFileFilterUsed(true);
+			if (extension.equals("fif")) {
+				extension = "jfif";
+			}
 
-		int result = fileChooser.showOpenDialog(this);
+			if (extension.equals("ebp")) {
+				extension = "webp";
+			}
 
-		if (result == JFileChooser.APPROVE_OPTION) {
+			if (extension.equals("ebm")) {
+				extension = "webm";
+			}
 
-			File[] selectedFile = fileChooser.getSelectedFiles();
+			if (extension.equals("3u8")) {
+				extension = "m3u8";
+			}
 
-			for (File i : selectedFile) {
-
-				System.out.println("Selected file: " + i);
-
+			if (extension.equals(".ts")) {
+				extension = "ts";
 			}
 
 		}
+
+		return extension;
+	}
+
+	public static String saberSeparador() {
+
+		if (System.getProperty("os.name").equals("Linux")) {
+
+			return "/";
+
+		}
+
+		else {
+
+			return "\\";
+
+		}
+
+	}
+
+	public static LinkedList<File> addImages(boolean carpeta, String filtro, File[] fc) {
+
+		LinkedList<File> files = new LinkedList<File>();
+
+		files.clear();
+
+		Arrays.asList(fc).forEach(x -> {
+
+			if (!carpeta) {
+
+				String extension;
+
+				if (x.isFile()) {
+
+					switch (filtro) {
+
+					case "":
+
+					case "none":
+
+					case "all":
+
+						files.add(new File(x.getAbsolutePath()));
+
+						break;
+
+					case "images":
+
+						extension = extraerExtension(x.getAbsolutePath());
+
+						if (extension.equals("jpeg") || extension.equals("bmp") || extension.equals("jpg")
+								|| extension.equals("png") || extension.equals("gif")) {
+
+							files.add(new File(x.getAbsolutePath()));
+
+						}
+
+						break;
+
+					default:
+
+						extension = extraerExtension(x.getAbsolutePath());
+
+						if (extension.equals(filtro)) {
+
+							files.add(new File(x.getAbsolutePath()));
+
+						}
+
+						break;
+
+					}
+
+				}
+
+			}
+
+			else {
+
+				if (x.isDirectory()) {
+
+					files.add(new File(x.getAbsolutePath()));
+
+				}
+
+			}
+
+		});
+
+		return files;
 
 	}
 
