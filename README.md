@@ -1,5 +1,4 @@
 # Simple Native File Chooser
-<<<<<<< HEAD
 
 ![Preview](preview.png)
 
@@ -62,5 +61,3 @@ showOpenFileDialog(false, "pdf");
 showOpenFileDialog(false, "images");
 
 ~~~
-=======
->>>>>>> main
