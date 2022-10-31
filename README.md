@@ -54,7 +54,7 @@ showOpenFileDialog(false, "pdf");
 
 ~~~
 
-## Open Image files (jpeg,jpg,png,gif,bmp)
+## Open Image files (jpg,png,gif,bmp)
 
 ~~~java
 
