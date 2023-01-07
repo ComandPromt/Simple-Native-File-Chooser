@@ -1,5 +1,4 @@
 # Simple Native File Chooser
-<<<<<<< HEAD
 
 ![Preview](preview.png)
 
@@ -61,12 +60,10 @@ showOpenFileDialog(false, "pdf");
 
 ~~~
 
-## Open Image files (jpeg,jpg,png,gif,bmp)
+## Open Image files (jpg,png,gif,bmp)
 
 ~~~java
 
 showOpenFileDialog(false, "images");
 
 ~~~
-=======
->>>>>>> main
