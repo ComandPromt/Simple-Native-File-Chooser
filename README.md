@@ -15,7 +15,13 @@
 	
 		LinkedList<File> lista = new LinkedList<File>();
 	
-		lista = test.showOpenFileDialog(false, "xml");
+		// Example 1 lista = test.showOpenFileDialog(false, "xml");
+	
+		// Example 2 CustomFilter JFileChooser test1 = new JFileChooser();
+
+		// Example 2 CustomFilter test1.addChoosableFileFilter(new FileNameExtensionFilter("Files", "mp4", "gif", "jpg"));
+
+		// Example 2 CustomFilter lista = test.customShowOpenFileDialog(false, test1, "Files");
 	
 		for (int i = 0; i < lista.size(); i++) {
 	
