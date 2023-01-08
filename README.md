@@ -20,7 +20,7 @@
 
 			JFileChooser test1 = new JFileChooser();
 
-			test1.addChoosableFileFilter(new FileNameExtensionFilter("", "mp4", "gif", "jpg"));
+			test1.addChoosableFileFilter(new FileNameExtensionFilter("Files", "mp4", "gif", "jpg"));
 
 			lista = test.customShowOpenFileDialog(false, test1, "mp4,gif,jpg");
 			
