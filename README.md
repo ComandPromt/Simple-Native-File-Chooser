@@ -67,3 +67,11 @@ showOpenFileDialog(false, "pdf");
 showOpenFileDialog(false, "images");
 
 ~~~
+
+## Open Video files (mp4,avi,mpg,mkv)
+
+~~~java
+
+showOpenFileDialog(false, "videos");
+
+~~~
