@@ -179,32 +179,45 @@ public class DemoJavaFxStage extends JFrame {
 			extension = extension.toLowerCase();
 
 			if (extension.equals("peg")) {
+
 				extension = "jpeg";
+
 			}
 
 			if (extension.equals("fif")) {
+
 				extension = "jfif";
+
 			}
 
 			if (extension.equals("ebp")) {
+
 				extension = "webp";
+
 			}
 
 			if (extension.equals("ebm")) {
+
 				extension = "webm";
+
 			}
 
 			if (extension.equals("3u8")) {
+
 				extension = "m3u8";
+
 			}
 
 			if (extension.equals(".ts")) {
+
 				extension = "ts";
+
 			}
 
 		}
 
 		return extension;
+
 	}
 
 	public static String saberSeparador() {
@@ -262,13 +275,48 @@ public class DemoJavaFxStage extends JFrame {
 
 						break;
 
-					default:
+					case "videos":
 
 						extension = extraerExtension(x.getAbsolutePath());
 
-						if (extension.equals(filtro)) {
+						if (extension.equals("mp4") || extension.equals("avi") || extension.equals("mpg")
+								|| extension.equals("mkv")) {
 
 							files.add(new File(x.getAbsolutePath()));
+
+						}
+
+						break;
+
+					default:
+
+						if (filtro.contains(",")) {
+
+							String[] extensiones = filtro.split(",");
+
+							for (String ext : extensiones) {
+
+								ext = ext.replace(".", "").trim().toLowerCase();
+
+								if (x.getAbsolutePath().endsWith("." + ext)) {
+
+									files.add(new File(x.getAbsolutePath()));
+
+								}
+
+							}
+
+						}
+
+						else {
+
+							extension = extraerExtension(x.getAbsolutePath());
+
+							if (extension.equals(filtro)) {
+
+								files.add(new File(x.getAbsolutePath()));
+
+							}
 
 						}
 
